@@ -7,8 +7,8 @@ if not %errorlevel% equ 0 (
 )
 
 set wtitle=Bulk Install
-REM pushd %~dp0
-cd %~dp0
+pushd %~dp0
+:: cd %~dp0
 set ext=*.exe *.msi
 set quietfolder=quietinstall
 set postrunfolder=postexecute
@@ -83,6 +83,6 @@ for /r %%f in (%postrunfolder%\%ext%) do (
 )
 
 endlocal
-REM popd
+popd
 echo Sequence complete, press any key to exit!
 pause > nul
