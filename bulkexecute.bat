@@ -11,6 +11,7 @@ pushd %~dp0
 ::cd %~dp0
 set ext=*.exe *.msi
 set quietfolder=\quietinstall
+set postrunfolder=\postexecute
 set /a count=0
 set /a current=0
 set /a progress=0
@@ -27,7 +28,7 @@ echo.
 for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /v /i /c:"\%quietfolder%\\"') do (
 	echo Starting file: %%f
 	start /wait "wtitle" "%%f"
-	
+
 	if %errorlevel% equ 0 (
 		echo File %%~nf returned no errors
 		echo.
@@ -45,6 +46,26 @@ echo RECURSIVELY AND QUIETLY INSTALLING PACKAGES IN %quietfolder%
 echo.
 
 for /r %%f in (%quietfolder%%ext%) do (
+	echo Installing %%f...
+    	start /wait msiexec /i "%%f" /qn
+
+	if %errorlevel% equ 0 (
+		echo File %%~nf returned no errors
+		echo.
+	) else (
+		echo File %%~nf exited with code %errorlevel%
+		echo.
+	)
+
+	set /a current+=1
+	set /a progress=100*current/count
+	title !progress!%% %wtitle% !current! of %count%
+)
+
+echo RECURSIVELY EXECUTING POST INSTALL FOLDER %quietfolder%
+echo.
+
+for /r %%f in (%postrunfolder%%ext%) do (
 	echo Installing %%f...
     	start /wait msiexec /i "%%f" /qn
 
