@@ -23,7 +23,7 @@ title !progress!%% %wtitle% !current! of %count%
 
 echo RECURSIVELY RUNNING FILES...
 echo.
-for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /v /i /c:"\%quietfolder%\\" /c:"\%postfolder%\\"') do (
+for /f "delims=" %%f in ('dir /s /b /a:-d %ext% ^| findstr /v /i /c:"\%quietfolder%\\" /c:"\%postfolder%\\"') do (
 	echo Starting: %%f
 	start /wait "wtitle" "%%f"
 	echo File %%~nf exited with error code %errorlevel%
@@ -35,7 +35,7 @@ for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /v /i /c:"\%quietfolder%\\" /c:
 
 echo RECURSIVELY AND QUIETLY INSTALLING PACKAGES IN %quietfolder%
 echo.
-for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%quietfolder%\\"') do (
+for /f "delims=" %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%quietfolder%\\"') do (
 	echo Installing: %%f
 	start /wait msiexec /i "%%f" /qn
 	echo File %%~nf exited with code %errorlevel%
@@ -47,7 +47,7 @@ for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%quietfolder%\\"') do (
 
 echo RUNNING POST INSTALL FILES IN %postfolder%...
 echo.
-for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%postfolder%\\"') do (
+for /f "delims=" %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%postfolder%\\"') do (
 	echo Installing: %%f
   start /wait "wtitle" "%%f"
 	echo File %%~nf exited with code %errorlevel%
