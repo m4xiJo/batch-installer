@@ -7,8 +7,8 @@ if not %errorlevel% equ 0 (
 )
 
 set wtitle=Bulk Install
-REM pushd %~dp0
-cd %~dp0
+pushd %~dp0
+REM cd %~dp0
 set ext=*.exe *.msi
 set postfolder=postexecute
 set quietfolder=quietinstall
@@ -57,6 +57,6 @@ for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%postfolder%\\"') do (
 	title !progress!%% %wtitle% !current! of %count%
 )
 endlocal
-REM popd
+popd
 echo Sequence complete, press any key to exit!
 pause > nul
