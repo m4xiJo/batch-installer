@@ -45,11 +45,11 @@ for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%quietfolder%\\"') do (
 	title !progress!%% %wtitle% !current! of %count%
 )
 
-echo RECURSIVELY INSTALLING PACKAGES IN %postfolder%...
+echo RUNNING POST INSTALL FILES IN %postfolder%...
 echo.
 for /f %%f in ('dir /s /b /a:-d %ext% ^| findstr /i /c:"\%postfolder%\\"') do (
 	echo Installing: %%f
-  start /wait msiexec /i "%%f" /qn
+  start /wait "wtitle" "%%f"
 	echo File %%~nf exited with code %errorlevel%
 	echo.
 	set /a current+=1
